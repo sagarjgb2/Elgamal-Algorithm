@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elgamal Er Dr</title>
+    <style>
+      h1 {
+        text-align: center;
+        color: red;
+      }
+      .left {
+        display: flex;
+        float: left;
+      }
+      .right {
+        display: flex;
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Elgamal Algorithm</h1>
+
+    <div class="left">
+      <div>
+        <h2>Elgamal Algorithm to Encrypt [Sender A]</h2>
+        <div>
+          <div>
+            <form id="myform" method="get" action="" onSubmit="encrypt();">
+              <label for="common-prime"
+                >common prime
+                <strong>q</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label
+              >
+              <input
+                type="number"
+                id="common-prime"
+                onchange="getVal()"
+                required
+              /><br /><br />
+              <label for="primitive-root"
+                >primitive root
+                <strong>α</strong
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label
+              >
+              <input
+                type="number"
+                id="primitive-root"
+                onchange="getVal()"
+                required
+              /><br /><br />
+              <label for="receiver-public-key"
+                >Public Key <strong>Y<sub>B</sub></strong
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label
+              >
+              <input
+                type="number"
+                id="receiver-public-key"
+                onchange="getVal()"
+                required
+              /><br /><br />
+              <label for="A-rand-int"
+                >Random Integer <strong>K<sub>A</sub></strong
+                >&nbsp;</label
+              >
+              <input
+                type="number"
+                id="A-rand-int"
+                onchange="getVal()"
+                required
+              /><br /><br />
+              <label for="msg"
+                >Message
+                <strong>M</strong
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label
+              >
+              <input
+                type="number"
+                id="msg"
+                onchange="getVal1()"
+                required
+              /><br /><br />
+            </form>
+          </div>
+          <div>
+            <p id="res">The ciphertext of message is: (C1,C2)</p>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        function getVal1() {
+          const q = document.getElementById("common-prime").value;
+          const alpha = document.getElementById("primitive-root").value;
+          const yb = document.getElementById("receiver-public-key").value;
+          const ka = document.getElementById("A-rand-int").value;
+          const m = document.getElementById("msg").value;
+
+          const k = Math.pow(yb, ka) % q;
+          const c1 = Math.pow(alpha, ka) % q;
+          const c2 = (k * m) % q;
+          console.log(c1, c2);
+          document.getElementById("res").innerHTML =
+            "The ciphertext of message is: (" + c1 + "," + c2 + ")";
+          document.getElementById("res").style.color = "green";
+        }
+      </script>
+    </div>
+
+    <div class="right">
+      <div>
+        <h2>Elgamal Algorithm to Find [Ciphertext C2]</h2>
+        <div>
+          <div>
+            <form id="myform2" method="get" action="" onSubmit="c2();">
+              <label for="common-prime"
+                >common prime
+                <strong>q</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label
+              >
+              <input
+                type="number"
+                id="common-prime2"
+                onchange="getVal2()"
+                required
+              /><br /><br />
+              <label for="primitive-root"
+                >primitive root
+                <strong>α</strong
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label
+              >
+              <input
+                type="number"
+                id="primitive-root2"
+                onchange="getVal2()"
+                required
+              /><br /><br />
+              <label for="receiver-public-key"
+                >Public Key <strong>Y<sub>B</sub></strong
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label
+              >
+              <input
+                type="number"
+                id="receiver-public-key2"
+                onchange="getVal2()"
+                required
+              /><br /><br />
+              <label for="msg2"
+                >Message
+                <strong>M</strong
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label
+              >
+              <input
+                type="number"
+                id="msg2"
+                onchange="getVal2()"
+                required
+              /><br /><br />
+              <label for="A-rand-int"
+                >Ciphertext (<strong>C<sub>1</sub></strong
+                >,C<sub>2</sub>)&nbsp;&nbsp;&nbsp;&nbsp;</label
+              >
+              <input
+                type="number"
+                id="ca"
+                onchange="getVal2a()"
+                required
+              /><br /><br />
+            </form>
+          </div>
+          <div>
+            <p id="res2">The ciphertext of message (C1,?) is:</p>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        function getVal2a() {
+          const q2 = document.getElementById("common-prime2").value;
+          const alpha2 = document.getElementById("primitive-root2").value;
+          const yb2 = document.getElementById("receiver-public-key2").value;
+          const ca = document.getElementById("ca").value;
+          const m2 = document.getElementById("msg2").value;
+
+          const ka2 = 3;
+          if (ca !== null && ca !== "") {
+            for (var i = 1; i < 999; i++) {
+              if (Math.ceil(Math.pow(alpha2, i) % q2) === ca) {
+                ka2 = i;
+                console.log(i);
+                break;
+              }
+            }
+          }
+
+          const k2 = Math.pow(yb2, ka2) % q2;
+          const cb = (k2 * m2) % q2;
+          document.getElementById("res2").innerHTML =
+            "The ciphertext of message (C1,?) is: (" + ca + "," + cb + ")";
+          document.getElementById("res2").style.color = "green";
+        }
+      </script>
+    </div>
+  </body>
+</html>
